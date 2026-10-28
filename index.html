@@ -3,35 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THANG TRUONG NGOC - Official Developer Portal</title>
-    <meta name="description" content="Official Apple Developer portfolio of THANG TRUONG NGOC. Explore high-fidelity 3D simulation sports, mathematical logic puzzles, and lightweight macOS utilities.">
-    <link rel="icon" type="image/png" href="/games/river-crossing/assets/icon.png?v=1">
+    <title>THANG TRUONG NGOC - Apple Developer Portfolio & Software Lab</title>
+    <meta name="description" content="Official Apple Developer portfolio of THANG TRUONG NGOC. High-fidelity 3D simulation sports, mathematical logic puzzles, and lightweight macOS menu bar utilities.">
+    <link rel="icon" type="image/png" href="games/river-crossing/assets/icon.png">
 
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ntt339.github.io/">
-    <meta property="og:title" content="THANG TRUONG NGOC - Developer Portal">
-    <meta property="og:description" content="Independent iOS, iPadOS, and macOS software & game development portfolio.">
-    <meta property="og:image" content="https://ntt339.github.io/softs/images/banner.jpg">
+    <meta property="og:title" content="THANG TRUONG NGOC - Developer Portfolio">
+    <meta property="og:description" content="Official Apple Developer portfolio featuring River IQ, Carom GO, and MiniStats for iOS, iPadOS, and macOS.">
+    <meta property="og:image" content="https://ntt339.github.io/games/river-crossing/assets/splash.jpg">
 
     <style>
         :root {
-            --bg-color: #07090e;
-            --bg-secondary: #0d1117;
-            --card-bg: #131922;
-            --card-hover-bg: #17212e;
+            --bg-color: #080b10;
+            --bg-elevated: #0f141d;
+            --card-bg: #131a26;
+            --card-hover-bg: #182232;
             --accent-cyan: #38bdf8;
-            --cyan-glow: rgba(56, 189, 248, 0.22);
+            --cyan-glow: rgba(56, 189, 248, 0.25);
             --accent-green: #10b981;
-            --green-glow: rgba(16, 185, 129, 0.22);
+            --green-glow: rgba(16, 185, 129, 0.25);
             --accent-orange: #f59e0b;
-            --orange-glow: rgba(245, 158, 11, 0.22);
+            --orange-glow: rgba(245, 158, 11, 0.25);
+            --accent-gold: #facc15;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
-            --border: #222f3e;
-            --border-hover: #3b82f6;
-            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --border: #1e293b;
+            --border-hover: rgba(56, 189, 248, 0.4);
+            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
         }
 
         * {
@@ -51,12 +52,12 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Navigation Header */
+        /* Top Navigation Header */
         header.nav-header {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(7, 9, 14, 0.85);
+            background: rgba(8, 11, 16, 0.88);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
@@ -65,7 +66,7 @@
         .nav-inner {
             max-width: 1140px;
             margin: 0 auto;
-            padding: 16px 24px;
+            padding: 14px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -83,18 +84,18 @@
         }
 
         .brand-avatar {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             border-radius: 9px;
             object-fit: cover;
-            border: 1px solid var(--border);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 22px;
             list-style: none;
         }
 
@@ -103,7 +104,7 @@
             text-decoration: none;
             font-size: 0.92rem;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: color 0.2s ease;
         }
 
         .nav-menu a:hover {
@@ -112,9 +113,9 @@
 
         /* Hero Section */
         .hero {
-            padding: 80px 24px 60px;
+            padding: 75px 24px 55px;
             text-align: center;
-            background: radial-gradient(circle at 50% 15%, #15273d 0%, var(--bg-color) 70%);
+            background: radial-gradient(circle at 50% 10%, #15263d 0%, var(--bg-color) 70%);
             border-bottom: 1px solid var(--border);
             position: relative;
         }
@@ -129,18 +130,18 @@
             font-weight: 700;
             padding: 6px 18px;
             border-radius: 999px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
             border: 1px solid rgba(56, 189, 248, 0.35);
         }
 
         h1.hero-title {
-            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-size: clamp(2.3rem, 5vw, 3.5rem);
             font-weight: 900;
             letter-spacing: -0.03em;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #ffffff 40%, #bae6fd 75%, #f1c40f 100%);
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #ffffff 40%, #bae6fd 75%, var(--accent-gold) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -148,8 +149,8 @@
         .hero-desc {
             font-size: 1.15rem;
             color: var(--text-secondary);
-            max-width: 740px;
-            margin: 0 auto 30px;
+            max-width: 720px;
+            margin: 0 auto 28px;
             line-height: 1.65;
         }
 
@@ -168,20 +169,20 @@
             font-size: 13.5px;
             font-weight: 600;
             padding: 10px 20px;
-            border-radius: 10px;
+            border-radius: 11px;
             text-decoration: none;
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
         }
 
-        .btn-primary {
+        .btn-cyan {
             background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 4px 18px var(--cyan-glow);
         }
 
-        .btn-primary:hover {
+        .btn-cyan:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 24px rgba(56, 189, 248, 0.45);
         }
@@ -233,7 +234,7 @@
             border-color: #ffffff;
         }
 
-        /* Container & Sections */
+        /* Container & Section Layouts */
         .container {
             max-width: 1140px;
             margin: 0 auto;
@@ -242,7 +243,7 @@
         }
 
         .section-header {
-            margin-bottom: 30px;
+            margin-bottom: 28px;
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
@@ -251,7 +252,7 @@
         }
 
         .section-title {
-            font-size: 1.7rem;
+            font-size: 1.65rem;
             font-weight: 800;
             display: flex;
             align-items: center;
@@ -263,7 +264,7 @@
             content: "";
             display: inline-block;
             width: 4px;
-            height: 26px;
+            height: 24px;
             border-radius: 2px;
         }
 
@@ -292,108 +293,147 @@
             text-decoration: underline;
         }
 
-        /* Cards Grid */
+        /* Clean Apple App Cards Grid (No Cropped Covers!) */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 28px;
-            margin-bottom: 60px;
+            margin-bottom: 55px;
         }
 
-        .card {
+        .app-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            overflow: hidden;
+            border-radius: 22px;
+            padding: 32px 28px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            overflow: hidden;
             transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .card:hover {
+        .app-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
         }
 
-        .card-cover {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--border);
-            background: #0d131a;
-        }
+        .card-cyan:hover { border-color: rgba(56, 189, 248, 0.4); }
+        .card-green:hover { border-color: rgba(16, 185, 129, 0.4); }
+        .card-orange:hover { border-color: rgba(245, 158, 11, 0.4); }
 
-        .card-body {
-            padding: 26px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-head {
+        /* Card Top: Icon + Titles */
+        .app-header {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 14px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
-        .card-icon {
-            width: 58px;
-            height: 58px;
-            border-radius: 14px;
+        .app-icon {
+            width: 76px;
+            height: 76px;
+            border-radius: 18px;
             object-fit: cover;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            transition: transform 0.25s ease;
+        }
+
+        .app-card:hover .app-icon {
+            transform: scale(1.05);
+        }
+
+        .app-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            margin-bottom: 4px;
+        }
+
+        .app-category {
+            font-size: 0.84rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+        }
+
+        .cat-cyan { color: var(--accent-cyan); }
+        .cat-green { color: var(--accent-green); }
+        .cat-orange { color: var(--accent-orange); }
+
+        .platform-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Highlights Bullets */
+        .app-highlights {
+            list-style: none;
+            margin: 18px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+        }
+
+        .app-highlights li {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            line-height: 1.5;
+        }
+
+        .app-highlights li span.dot {
+            font-weight: 700;
             flex-shrink: 0;
         }
 
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #ffffff;
-            line-height: 1.3;
-        }
+        .dot-cyan { color: var(--accent-cyan); }
+        .dot-green { color: var(--accent-green); }
+        .dot-orange { color: var(--accent-orange); }
 
-        .card-category {
-            font-size: 0.82rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-        }
-
-        .category-cyan { color: var(--accent-cyan); }
-        .category-green { color: var(--accent-green); }
-        .category-orange { color: var(--accent-orange); }
-
-        .card-desc {
+        /* Description */
+        .app-desc {
             color: var(--text-secondary);
             font-size: 0.92rem;
-            line-height: 1.6;
+            line-height: 1.65;
             margin-bottom: 22px;
             flex: 1;
         }
 
-        .card-tags {
+        /* Tag Chips */
+        .app-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 7px;
+            margin-bottom: 22px;
         }
 
         .tag {
             font-size: 11.5px;
             padding: 4px 10px;
             border-radius: 6px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             color: var(--text-secondary);
             border: 1px solid rgba(255, 255, 255, 0.08);
             font-weight: 500;
         }
 
-        .card-actions {
+        /* Card Action Links */
+        .app-actions {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
@@ -401,30 +441,30 @@
             padding-top: 20px;
         }
 
-        /* Banner Box */
+        /* Highlight Banner Box */
         .portal-highlight {
-            background: linear-gradient(135deg, #0f1c2e 0%, #172a42 100%);
+            background: linear-gradient(135deg, #0f1c2d 0%, #15273d 100%);
             border: 1px solid rgba(56, 189, 248, 0.35);
             border-radius: 20px;
-            padding: 36px 32px;
-            margin-bottom: 60px;
+            padding: 34px 30px;
+            margin-bottom: 50px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 30px;
+            gap: 26px;
             flex-wrap: wrap;
         }
 
         .highlight-text h3 {
-            font-size: 1.45rem;
+            font-size: 1.35rem;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .highlight-text p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 0.94rem;
             max-width: 680px;
             line-height: 1.6;
         }
@@ -432,9 +472,9 @@
         .compliance-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: var(--accent-green);
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 600;
             margin-top: 10px;
         }
@@ -469,10 +509,11 @@
         }
 
         @media (max-width: 768px) {
-            .hero { padding: 60px 18px 45px; }
+            .hero { padding: 60px 20px 40px; }
             .cards-grid { grid-template-columns: 1fr; }
             .nav-inner { flex-direction: column; gap: 14px; }
-            .portal-highlight { padding: 24px; }
+            .app-card { padding: 24px 20px; }
+            .portal-highlight { padding: 24px 20px; }
         }
     </style>
 </head>
@@ -482,12 +523,12 @@
     <header class="nav-header">
         <div class="nav-inner">
             <a href="index.html" class="brand">
-                <img src="/games/river-crossing/assets/icon.png?v=1" alt="Developer Logo" class="brand-avatar" width="34" height="34">
+                <img src="games/river-crossing/assets/icon.png" alt="Developer Logo" class="brand-avatar">
                 <span>THANG TRUONG NGOC</span>
             </a>
             <ul class="nav-menu">
                 <li><a href="#games">Games</a></li>
-                <li><a href="#softs">Software</a></li>
+                <li><a href="#softs">macOS Utilities</a></li>
                 <li><a href="app-ads.txt" target="_blank">app-ads.txt</a></li>
                 <li><a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" target="_blank" rel="noopener">Apple Store ↗</a></li>
                 <li><a href="mailto:ngocthang@gmail.com">Contact</a></li>
@@ -500,14 +541,14 @@
         <span class="badge"> Apple Developer Portfolio</span>
         <h1 class="hero-title">THANG TRUONG NGOC</h1>
         <p class="hero-desc">
-            Independent developer crafting high-fidelity 3D simulation sports, algorithmic logic puzzles, and privacy-first utilities for iOS, iPadOS, and macOS.
+            Independent software & game developer crafting high-fidelity simulation sports, algorithmic logic puzzles, and privacy-first utilities for Apple platforms.
         </p>
-        <div class="hero-cta hero-actions">
-            <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" target="_blank" rel="noopener" class="btn btn-primary">
-                 Official Apple Developer Portfolio ↗
+        <div class="hero-actions">
+            <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" target="_blank" rel="noopener" class="btn btn-cyan">
+                 Official Apple App Store Portfolio ↗
             </a>
             <a href="#games" class="btn btn-outline">Explore Games</a>
-            <a href="#softs" class="btn btn-outline">Explore Software</a>
+            <a href="#softs" class="btn btn-outline">Explore macOS Apps</a>
         </div>
     </section>
 
@@ -518,70 +559,92 @@
         <section id="games" style="scroll-margin-top: 80px;">
             <div class="section-header">
                 <div>
-                    <h2 class="section-title title-games">Featured Games & Logic Puzzles</h2>
-                    <p class="section-desc">Responsive physics, provable algorithms, zero third-party tracking, and seamless offline play.</p>
+                    <h2 class="section-title title-games">Games & Logic Puzzles</h2>
+                    <p class="section-desc">Responsive physics, provable algorithms, zero third-party telemetry, and seamless offline play.</p>
                 </div>
-                <a href="games/index.html" class="section-link">View Games Hub Portal &rarr;</a>
+                <a href="games/index.html" class="section-link">View Games Hub &rarr;</a>
             </div>
 
             <div class="cards-grid">
+
                 <!-- Game 1: River IQ -->
-                <article class="card">
-                    <img src="/games/river-crossing/assets/splash.jpg?v=1" alt="River IQ Cover" class="card-cover" loading="lazy" decoding="async">
-                    <div class="card-body">
-                        <div class="card-head">
-                            <img src="/games/river-crossing/assets/icon.png?v=1" alt="River IQ Icon" class="card-icon" width="58" height="58">
+                <article class="app-card card-cyan">
+                    <div>
+                        <div class="app-header">
+                            <img src="games/river-crossing/assets/icon.png" alt="River IQ Icon" class="app-icon">
                             <div>
-                                <h3 class="card-title">River IQ: River Crossing</h3>
-                                <p class="card-category category-cyan">Classic Logic & Riddle Engine</p>
+                                <h3 class="app-title">River IQ: River Crossing</h3>
+                                <p class="app-category cat-cyan">Classic Logic & Riddle Engine</p>
+                                <span class="platform-badge"> iOS & iPadOS • 100% Offline</span>
                             </div>
                         </div>
-                        <p class="card-desc">
-                            Master 35 classic river crossing riddles and algorithmic puzzles across 6 progressive chapters. Ferry wolves, sheep, cabbages, monks, and demons with on-device BFS AI hints and 100% offline play.
+
+                        <ul class="app-highlights">
+                            <li><span class="dot dot-cyan">✓</span> <span><strong>35 Classic Riddles:</strong> Ferry wolves, sheep, cabbages, monks, and demons across 6 progressive chapters.</span></li>
+                            <li><span class="dot dot-cyan">✓</span> <span><strong>Algorithmic Intelligence:</strong> Powered by 5 puzzle engines with on-device BFS AI optimal hints.</span></li>
+                            <li><span class="dot dot-cyan">✓</span> <span><strong>Global & Clean:</strong> 10 localized languages, zero advertisements, and 100% offline play.</span></li>
+                        </ul>
+
+                        <p class="app-desc">
+                            Challenge your deductive reasoning with iconic river crossing mathematical puzzles. Built with high-fidelity water ripple physics, interactive animations, and provable algorithmic solutions.
                         </p>
-                        <div class="card-tags">
-                            <span class="tag">iOS & iPadOS</span>
-                            <span class="tag">Offline Logic</span>
-                            <span class="tag">BFS Algorithm</span>
+
+                        <div class="app-tags">
+                            <span class="tag">BFS AI Hints</span>
+                            <span class="tag">Zero Ads</span>
+                            <span class="tag">6 Chapters</span>
                             <span class="tag">10 Languages</span>
+                            <span class="tag">Privacy-First</span>
                         </div>
-                        <div class="card-actions">
-                            <a href="games/river-crossing/index.html" class="btn btn-primary">Overview</a>
-                            <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" target="_blank" rel="noopener" class="btn btn-store"> App Store ↗</a>
-                            <a href="games/river-crossing/privacy-policy.html" class="btn btn-outline">Privacy</a>
-                            <a href="games/river-crossing/support.html" class="btn btn-outline">Support</a>
-                        </div>
+                    </div>
+
+                    <div class="app-actions">
+                        <a href="games/river-crossing/index.html" class="btn btn-cyan">Overview & Rules</a>
+                        <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" target="_blank" rel="noopener" class="btn btn-store"> App Store ↗</a>
+                        <a href="games/river-crossing/privacy-policy.html" class="btn btn-outline">Privacy</a>
+                        <a href="games/river-crossing/support.html" class="btn btn-outline">Support</a>
                     </div>
                 </article>
 
                 <!-- Game 2: Carom GO -->
-                <article class="card">
-                    <img src="/games/carom/assets/01_3D_Physics_Gameplay.png?v=1" alt="Carom GO Cover" class="card-cover" loading="lazy" decoding="async">
-                    <div class="card-body">
-                        <div class="card-head">
-                            <img src="/games/carom/assets/icon.png?v=1" alt="Carom GO Icon" class="card-icon" width="58" height="58">
+                <article class="app-card card-green">
+                    <div>
+                        <div class="app-header">
+                            <img src="games/carom/assets/icon.png" alt="Carom GO Icon" class="app-icon">
                             <div>
-                                <h3 class="card-title">Carom GO</h3>
-                                <p class="card-category category-green">Authentic 3D Carom & Tournaments</p>
+                                <h3 class="app-title">Carom GO</h3>
+                                <p class="app-category cat-green">Authentic 3D Carom & Tournaments</p>
+                                <span class="platform-badge"> iOS & iPadOS • 3D Physics</span>
                             </div>
                         </div>
-                        <p class="card-desc">
-                            Experience authentic pocketless carom billiards with realistic 3D cushion physics and true Simonis cloth friction! Host 4–8 player knockout tournaments, test custom leaves, and challenge 10 World Legend Champions.
+
+                        <ul class="app-highlights">
+                            <li><span class="dot dot-green">✓</span> <span><strong>3D Cushion Physics:</strong> Realistic pocketless carom billiards with authentic Simonis cloth friction.</span></li>
+                            <li><span class="dot dot-green">✓</span> <span><strong>Tournament Arenas:</strong> Host 4 to 8-player knockout tournaments and challenge 10 World Legend Champions.</span></li>
+                            <li><span class="dot dot-green">✓</span> <span><strong>Multiplayer & Practice:</strong> Local peer-to-peer play (Bluetooth/Wi-Fi), Game Center online, and Free Ball Setup.</span></li>
+                        </ul>
+
+                        <p class="app-desc">
+                            Master precision 1-cushion and 3-cushion angles, masse curves, and spin control on standard 10ft match tables with dynamic camera perspectives.
                         </p>
-                        <div class="card-tags">
-                            <span class="tag">iOS & iPadOS</span>
+
+                        <div class="app-tags">
                             <span class="tag">3D Physics Engine</span>
                             <span class="tag">Multiplayer Lobby</span>
-                            <span class="tag">Tournaments</span>
-                        </div>
-                        <div class="card-actions">
-                            <a href="games/carom/index.html" class="btn btn-green">Overview</a>
-                            <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" target="_blank" rel="noopener" class="btn btn-store"> App Store ↗</a>
-                            <a href="games/carom/privacy-policy.html" class="btn btn-outline">Privacy</a>
-                            <a href="games/carom/support.html" class="btn btn-outline">Support</a>
+                            <span class="tag">World Legends AI</span>
+                            <span class="tag">Free Ball Setup</span>
+                            <span class="tag">Knockout Brackets</span>
                         </div>
                     </div>
+
+                    <div class="app-actions">
+                        <a href="games/carom/index.html" class="btn btn-green">Overview & Gameplay</a>
+                        <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" target="_blank" rel="noopener" class="btn btn-store"> App Store ↗</a>
+                        <a href="games/carom/privacy-policy.html" class="btn btn-outline">Privacy</a>
+                        <a href="games/carom/support.html" class="btn btn-outline">Support</a>
+                    </div>
                 </article>
+
             </div>
         </section>
 
@@ -589,54 +652,65 @@
         <section id="softs" style="scroll-margin-top: 80px;">
             <div class="section-header">
                 <div>
-                    <h2 class="section-title title-softs">macOS Utilities & Software</h2>
-                    <p class="section-desc">Ultra-lightweight, 100% native Swift & SwiftUI utilities engineered for macOS.</p>
+                    <h2 class="section-title title-softs">macOS System Utilities</h2>
+                    <p class="section-desc">Ultra-lightweight, 100% native Swift & SwiftUI performance monitors engineered for macOS.</p>
                 </div>
-                <a href="softs/index.html" class="section-link">View MiniStats Product Site &rarr;</a>
+                <a href="softs/index.html" class="section-link">View MiniStats Site &rarr;</a>
             </div>
 
             <div class="cards-grid">
-                <!-- App: MiniStats -->
-                <article class="card">
-                    <img src="/softs/images/banner.jpg?v=1" alt="MiniStats Banner" class="card-cover" loading="lazy" decoding="async">
-                    <div class="card-body">
-                        <div class="card-head">
-                            <img src="/softs/images/icon.png?v=1" alt="MiniStats Icon" class="card-icon" width="58" height="58">
+
+                <!-- App 3: MiniStats -->
+                <article class="app-card card-orange">
+                    <div>
+                        <div class="app-header">
+                            <img src="softs/images/icon.png" alt="MiniStats Icon" class="app-icon">
                             <div>
-                                <h3 class="card-title">MiniStats: System Monitor</h3>
-                                <p class="card-category category-orange">Minimalist Menu Bar Utility</p>
+                                <h3 class="app-title">MiniStats: System Monitor</h3>
+                                <p class="app-category cat-orange">Minimalist Menu Bar Utility</p>
+                                <span class="platform-badge"> macOS 14.0+ • Apple Silicon & Intel</span>
                             </div>
                         </div>
-                        <p class="card-desc">
-                            Native system telemetry for macOS Apple Silicon and Intel. Live CPU/GPU load, RAM pressure, disk I/O, battery charging wattage, and real-time network throughput with near-zero energy consumption.
+
+                        <ul class="app-highlights">
+                            <li><span class="dot dot-orange">✓</span> <span><strong>Hardware Telemetry:</strong> Real-time per-core CPU/GPU utilization, unified memory pressure, and multi-disk I/O.</span></li>
+                            <li><span class="dot dot-orange">✓</span> <span><strong>Network & Energy:</strong> Live bandwidth upload/download throughput, battery charging wattage, and top resource consumers.</span></li>
+                            <li><span class="dot dot-orange">✓</span> <span><strong>100% Native & Clean:</strong> Pure Swift 6 & SwiftUI architecture with near-zero energy consumption and zero tracking.</span></li>
+                        </ul>
+
+                        <p class="app-desc">
+                            A clean, non-intrusive menu bar performance monitor built exclusively for macOS. Stay informed about system vitals at a glance without cluttering your desktop.
                         </p>
-                        <div class="card-tags">
-                            <span class="tag">macOS 14.0+</span>
+
+                        <div class="app-tags">
                             <span class="tag">Swift 6.0</span>
                             <span class="tag">SwiftUI Native</span>
-                            <span class="tag">Zero Tracking</span>
+                            <span class="tag">Apple Silicon</span>
+                            <span class="tag">Zero Background Drain</span>
                             <span class="tag">Free & Offline</span>
                         </div>
-                        <div class="card-actions">
-                            <a href="softs/index.html" class="btn btn-orange">Overview & Features</a>
-                            <a href="https://apps.apple.com/app/ministats-system-monitor/id6820877282" target="_blank" rel="noopener" class="btn btn-store"> Mac App Store ↗</a>
-                            <a href="https://github.com/ntt339/softs" target="_blank" rel="noopener" class="btn btn-outline">GitHub Repo</a>
-                            <a href="softs/privacy.html" class="btn btn-outline">Privacy</a>
-                        </div>
+                    </div>
+
+                    <div class="app-actions">
+                        <a href="softs/index.html" class="btn btn-orange">Overview & Telemetry</a>
+                        <a href="https://apps.apple.com/app/ministats-system-monitor/id6820877282" target="_blank" rel="noopener" class="btn btn-store"> Mac App Store ↗</a>
+                        <a href="https://github.com/ntt339/softs" target="_blank" rel="noopener" class="btn btn-outline">GitHub Repo</a>
+                        <a href="softs/privacy.html" class="btn btn-outline">Privacy</a>
                     </div>
                 </article>
+
             </div>
         </section>
 
         <!-- AdMob / Developer Profile Highlight -->
         <div class="portal-highlight">
             <div class="highlight-text">
-                <h3>Developer Verification & Security Standards</h3>
+                <h3>Developer Compliance & AdMob Standards</h3>
                 <p>
-                    All released applications comply strictly with Apple App Store Review Guidelines, AdMob Authorized Sellers for Apps (app-ads.txt), and privacy-by-design standards with no invasive background telemetry.
+                    All released applications strictly comply with Apple App Store Review Guidelines, AdMob Authorized Sellers for Apps (app-ads.txt), and privacy-by-design standards with zero unauthorized tracking.
                 </p>
                 <div class="compliance-badge">
-                    ✓ Google AdMob Authorized Seller Verified (<a href="app-ads.txt" style="color: var(--accent-green); text-decoration: underline;">app-ads.txt</a>)
+                    ✓ Google AdMob Authorized Seller Verified (<a href="app-ads.txt" target="_blank" style="color: var(--accent-green); text-decoration: underline;">app-ads.txt</a>)
                 </div>
             </div>
             <div>
@@ -651,7 +725,7 @@
     <!-- Footer -->
     <footer>
         <div class="footer-nav">
-            <a href="games/index.html">Games Portal</a>
+            <a href="games/index.html">Games Hub</a>
             <a href="games/river-crossing/index.html">River IQ</a>
             <a href="games/carom/index.html">Carom GO</a>
             <a href="softs/index.html">MiniStats</a>
