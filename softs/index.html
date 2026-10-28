@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniStats - Minimalist System Monitor for macOS</title>
+    <meta name="description" content="MiniStats is a clean, minimal, and ultra-lightweight system monitor for macOS. Track CPU, GPU, RAM, Network throughput, Multi-disk storage, Wattage draw, Top Apps, and Smart Battery Reminders.">
+    <link rel="icon" type="image/png" href="images/icon.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ntt339.github.io/softs/">
+    <meta property="og:title" content="MiniStats - Minimalist System Monitor for macOS">
+    <meta property="og:description" content="An ultra-lightweight, 100% free system monitor for macOS. Track CPU, GPU, RAM, Network throughput, Multi-disk storage, Wattage draw, and Top Apps.">
+    <meta property="og:image" content="https://ntt339.github.io/softs/images/banner.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ntt339.github.io/softs/">
+    <meta property="twitter:title" content="MiniStats - Minimalist System Monitor for macOS">
+    <meta property="twitter:description" content="An ultra-lightweight, 100% free system monitor for macOS. Track CPU, GPU, RAM, Network throughput, Multi-disk storage, Wattage draw, and Top Apps.">
+    <meta property="twitter:image" content="https://ntt339.github.io/softs/images/banner.jpg">
+
+    <style>
+        :root {
+            --bg: #090b10;
+            --bg-elevated: #11141c;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent-cyan: #00f0ff;
+            --accent-green: #30d158;
+            --accent-purple: #bf5af2;
+            --accent-orange: #ff9f0a;
+            --accent-blue: #0a84ff;
+            --accent-red: #ff453a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        nav {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn-nav-appstore {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary) !important;
+            border: 1px solid var(--card-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-nav-appstore:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 960px;
+            margin: 50px auto 60px;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .badge-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(10, 132, 255, 0.12);
+            color: var(--accent-blue);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(10, 132, 255, 0.25);
+        }
+
+        .hero-badge.free {
+            background: rgba(48, 209, 88, 0.12);
+            color: var(--accent-green);
+            border-color: rgba(48, 209, 88, 0.25);
+        }
+
+        .hero-title {
+            font-size: 3.6rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.12;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #b0b0b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 760px;
+            margin: 0 auto 36px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            color: #000000;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 1px solid var(--card-border);
+            transition: background 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        /* Metric Highlight Counters */
+        .metrics-banner {
+            max-width: 1100px;
+            margin: 0 auto 70px;
+            padding: 0 20px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 24px 20px;
+        }
+
+        .metric-item {
+            text-align: center;
+            border-right: 1px solid var(--card-border);
+        }
+
+        .metric-item:last-child {
+            border-right: none;
+        }
+
+        .metric-val {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .metric-val.green { color: var(--accent-green); }
+        .metric-val.blue { color: var(--accent-blue); }
+        .metric-val.orange { color: var(--accent-orange); }
+        .metric-val.cyan { color: var(--accent-cyan); }
+
+        .metric-lbl {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Screenshots Showcase */
+        .showcase {
+            max-width: 1180px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .main-screenshot-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .main-screenshot-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .main-screenshot-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        /* Features Section */
+        .features {
+            max-width: 1180px;
+            margin: 0 auto 120px;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px 26px;
+            transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            border-color: var(--card-hover-border);
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .feature-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--card-border);
+            flex-shrink: 0;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Deep Dive Triad */
+        .deepdive {
+            max-width: 1180px;
+            margin: 0 auto 120px;
+            padding: 0 20px;
+        }
+
+        .deepdive-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .deepdive-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px 24px;
+        }
+
+        .deepdive-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .deepdive-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .deepdive-card li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .deepdive-card li::before {
+            content: "•";
+            position: absolute;
+            left: 4px;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        /* Tech Specs Section */
+        .techspecs {
+            max-width: 1100px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .specs-table th, .specs-table td {
+            padding: 16px 24px;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.95rem;
+        }
+
+        .specs-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.02);
+            width: 35%;
+        }
+
+        .specs-table td {
+            color: var(--text-primary);
+        }
+
+        .specs-table tr:last-child th,
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Download Section */
+        .download-section {
+            max-width: 1100px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .download-box {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 50px 36px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .download-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .download-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .download-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Privacy Banner */
+        .privacy-highlight {
+            max-width: 1100px;
+            margin: 0 auto 120px;
+            padding: 0 20px;
+        }
+
+        .privacy-box {
+            background: linear-gradient(135deg, rgba(48, 209, 88, 0.08) 0%, rgba(10, 132, 255, 0.08) 100%);
+            border: 1px solid rgba(48, 209, 88, 0.25);
+            border-radius: 20px;
+            padding: 44px 36px;
+            text-align: center;
+        }
+
+        .privacy-box h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: -0.01em;
+        }
+
+        .privacy-box p {
+            color: var(--text-secondary);
+            max-width: 740px;
+            margin: 0 auto 24px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--card-border);
+            padding: 48px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-blue);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .hero-title { font-size: 2.8rem; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .metric-item:nth-child(2) { border-right: none; }
+            .deepdive-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title { font-size: 2.2rem; }
+            .screenshot-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .metric-item { border-right: none; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; }
+            .metric-item:last-child { border-bottom: none; }
+            .nav-links { gap: 12px; }
+            .download-title { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo-container">
+            <img src="images/icon.png" alt="MiniStats Icon" class="logo-img">
+            <span class="logo-title">MiniStats</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#screenshots">Screenshots</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="https://github.com/ntt339/softs" target="_blank">GitHub</a>
+            <a href="https://apps.apple.com/app/ministats-system-monitor/id6820877282" class="btn-nav-appstore" target="_blank">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.84c.64-.78 1.08-1.86.96-2.95-1 .04-2.18.67-2.88 1.48-.61.71-1.15 1.83-1.01 2.91 1.12.09 2.29-.66 2.93-1.44z"/>
+                </svg>
+                Mac App Store
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="badge-group">
+            <div class="hero-badge">macOS 14.0+ • Apple Silicon & Intel</div>
+            <div class="hero-badge free">100% Free & Local</div>
+            <div class="hero-badge">11 Languages</div>
+        </div>
+
+        <h1 class="hero-title">Pure Simplicity on your Menu Bar</h1>
+
+        <p class="hero-subtitle">
+            An ultra-lightweight, 100% free system monitor designed exclusively for macOS. Track CPU, GPU, RAM, True Network throughput, Multi-disk storage, Wattage draw, Top Apps, and Smart Battery reminders with near-zero energy impact.
+        </p>
+
+        <div class="cta-group">
+            <a href="https://apps.apple.com/app/ministats-system-monitor/id6820877282" class="btn-primary" target="_blank">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.84c.64-.78 1.08-1.86.96-2.95-1 .04-2.18.67-2.88 1.48-.61.71-1.15 1.83-1.01 2.91 1.12.09 2.29-.66 2.93-1.44z"/>
+                </svg>
+                Download on Mac App Store
+            </a>
+            <a href="https://github.com/ntt339/softs" class="btn-secondary" target="_blank">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+                GitHub
+            </a>
+            <a href="privacy.html" class="btn-secondary">
+                Privacy Policy
+            </a>
+        </div>
+    </section>
+
+    <!-- Key Metrics Highlight -->
+    <section class="metrics-banner">
+        <div class="metrics-grid">
+            <div class="metric-item">
+                <div class="metric-val green">0.0% – 0.5%</div>
+                <div class="metric-lbl">Idle Background CPU</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val blue">11</div>
+                <div class="metric-lbl">Built-in Languages</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val orange">100% Free</div>
+                <div class="metric-lbl">Zero Ads & Subscriptions</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val cyan">100% Local</div>
+                <div class="metric-lbl">Sandboxed & Zero Telemetry</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Showcase -->
+    <section class="showcase" id="screenshots">
+        <div class="main-screenshot-card">
+            <img src="images/1_Overview_Simplicity.png" alt="MiniStats Menu Bar Overview">
+        </div>
+        <div class="screenshot-grid">
+            <div class="main-screenshot-card">
+                <img src="images/2_Hardware_Telemetry.png" alt="MiniStats Hardware Telemetry">
+            </div>
+            <div class="main-screenshot-card">
+                <img src="images/3_Network_Power.png" alt="MiniStats Network and Battery">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-tag">Engineered for Performance</div>
+            <h2 class="section-title">Everything You Need, Nothing You Don't</h2>
+            <p class="section-subtitle">
+                Purpose-built from the ground up using modern Swift frameworks for modern Mac workflows.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <!-- 1. Native & Adaptive Polling -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">⚡</div>
+                    <h3 class="feature-title">Adaptive Polling Architecture</h3>
+                </div>
+                <p class="feature-desc">
+                    Engineered with intelligent lifecycle hooks: when the dashboard popover is closed, background process scanning and heavy sensors pause automatically, reducing idle CPU usage to <strong>0.0% – 0.5%</strong>.
+                </p>
+            </div>
+
+            <!-- 2. CPU & GPU Telemetry -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">📊</div>
+                    <h3 class="feature-title">Live CPU & GPU Telemetry</h3>
+                </div>
+                <p class="feature-desc">
+                    High-precision utilization metrics, CPU Performance vs. Efficiency core breakdown (e.g. <code>8P+2E</code>), GPU core count, hardware thermal sensors, and smooth Catmull-Rom historical area curves.
+                </p>
+            </div>
+
+            <!-- 3. Top Processes & Force Quit -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🛑</div>
+                    <h3 class="feature-title">Top Apps & Safe Force Quit</h3>
+                </div>
+                <p class="feature-desc">
+                    Real-time inspection of top CPU-heavy and memory-consuming applications with native app icons. Terminate unresponsive apps instantly, protected by a safety confirmation modal.
+                </p>
+            </div>
+
+            <!-- 4. Dynamic Color Warnings -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🚦</div>
+                    <h3 class="feature-title">Dynamic Color Warnings</h3>
+                </div>
+                <p class="feature-desc">
+                    Color-coded visual alerts that intelligently update as hardware load increases: Normal (&lt;70%), Yellow (≥70%), Orange (≥80%), and Red (≥90%) across Menu Bar, Dashboard, and Process lists.
+                </p>
+            </div>
+
+            <!-- 5. Real-Time Wattage Meter -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🔋</div>
+                    <h3 class="feature-title">Real-Time Power Wattage</h3>
+                </div>
+                <p class="feature-desc">
+                    Measures live power draw and charging rates in Watts (<code>XX.X W</code>) directly from the Apple Silicon PMU and AppleSmartBattery, with power source detection and battery runtime estimates.
+                </p>
+            </div>
+
+            <!-- 6. Smart Battery Reminders -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🔔</div>
+                    <h3 class="feature-title">Smart Battery Charger Reminders</h3>
+                </div>
+                <p class="feature-desc">
+                    Sends native macOS Notification Center alerts with audio when battery drops below <strong>50%</strong> (Notice), <strong>40%</strong> (Warning), and <strong>≤30%</strong> (Critical) to help preserve battery lifespan.
+                </p>
+            </div>
+
+            <!-- 7. Multi-Disk Storage -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🗄️</div>
+                    <h3 class="feature-title">Multi-Partition Storage Tracking</h3>
+                </div>
+                <p class="feature-desc">
+                    Automatically scans and monitors all internal user volumes and disk partitions. Features modern Apple capsule progress bars with linear gradients and dynamic low-space warning indicators.
+                </p>
+            </div>
+
+            <!-- 8. True Physical Network Throughput -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🌐</div>
+                    <h3 class="feature-title">True Network Throughput</h3>
+                </div>
+                <p class="feature-desc">
+                    Monitors genuine physical network adapters (Wi-Fi, Ethernet) using macOS Dynamic Store, ensuring active VPN tunnels never inflate or distort your real physical bandwidth.
+                </p>
+            </div>
+
+            <!-- 9. Accurate RAM Allocation -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🧠</div>
+                    <h3 class="feature-title">Honest RAM Allocation</h3>
+                </div>
+                <p class="feature-desc">
+                    Displays actual memory used versus total system capacity (<code>X.X GB / Y.Y GB</code>), eliminating confusing percentages caused by macOS aggressive file-cache caching algorithms.
+                </p>
+            </div>
+
+            <!-- 10. Customizable Menu Bar & Settings -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🎛️</div>
+                    <h3 class="feature-title">Customizable Menu Bar & Settings</h3>
+                </div>
+                <p class="feature-desc">
+                    Toggle CPU %, Network speeds, or display a minimal gauge icon on your Menu Bar. Access a dedicated Settings panel (⚙️) with smooth transitions to tailor every parameter.
+                </p>
+            </div>
+
+            <!-- 11. 11 International Languages -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🌍</div>
+                    <h3 class="feature-title">11 Built-in Languages</h3>
+                </div>
+                <p class="feature-desc">
+                    Switch seamlessly between 11 languages with zero app restarts: 🇬🇧 English, 🇩🇪 Deutsch, 🇫🇷 Français, 🇪🇸 Español, 🇵🇹 Português, 🇹🇷 Türkçe, 🇯🇵 日本語, 🇰🇷 한국어, 🇲🇽 Español (MX), 🇩🇰 Dansk, 🇻🇳 Tiếng Việt.
+                </p>
+            </div>
+
+            <!-- 12. Native Autostart & Sandbox -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🚀</div>
+                    <h3 class="feature-title">Native Login Autostart</h3>
+                </div>
+                <p class="feature-desc">
+                    Clean autostart management using Apple's official <code>ServiceManagement</code> framework. No legacy helper daemons or invasive background agents left behind.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deep Dive Triad -->
+    <section class="deepdive">
+        <div class="section-header">
+            <div class="section-tag">Architecture Spotlight</div>
+            <h2 class="section-title">Three Focused View Layers</h2>
+        </div>
+
+        <div class="deepdive-grid">
+            <div class="deepdive-card">
+                <h3>
+                    <span>🖥️</span>
+                    Menu Bar Item
+                </h3>
+                <ul>
+                    <li>Always-visible CPU % and real-time network transfer rates</li>
+                    <li>Dynamic auto-sizing container with anti-jitter thresholds</li>
+                    <li>Dynamic color warning indicators under intense system load</li>
+                </ul>
+            </div>
+
+            <div class="deepdive-card">
+                <h3>
+                    <span>📱</span>
+                    Dashboard Popover
+                </h3>
+                <ul>
+                    <li>Full telemetry for CPU, GPU, RAM, Network, Storage & Power</li>
+                    <li>Real-time historical area graphs rendered with Swift Charts</li>
+                    <li>Top running processes list with one-click safe force quit</li>
+                </ul>
+            </div>
+
+            <div class="deepdive-card">
+                <h3>
+                    <span>⚙️</span>
+                    Modular Settings
+                </h3>
+                <ul>
+                    <li>Tailor Menu Bar items, process count (3 or 5), and alerts</li>
+                    <li>Select temperature unit (°C or °F) and native startup behavior</li>
+                    <li>Instant live language switcher across 11 world languages</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Specs Section -->
+    <section class="techspecs">
+        <div class="section-header">
+            <h2 class="section-title">Technical Specifications</h2>
+        </div>
+
+        <table class="specs-table">
+            <tbody>
+                <tr>
+                    <th>Supported Platforms</th>
+                    <td>macOS 14.0 (Sonoma), macOS 15.0+ (Sequoia)</td>
+                </tr>
+                <tr>
+                    <th>Hardware Architectures</th>
+                    <td>Universal 2 Binary (Apple Silicon M1/M2/M3/M4 & Intel Core x86_64)</td>
+                </tr>
+                <tr>
+                    <th>Codebase & UI</th>
+                    <td>100% Native Swift 6, SwiftUI & Swift Charts</td>
+                </tr>
+                <tr>
+                    <th>Idle CPU Usage</th>
+                    <td>0.0% – 0.5% (Adaptive Polling with SMC/IOHID caching)</td>
+                </tr>
+                <tr>
+                    <th>Memory Footprint</th>
+                    <td>~15 MB – 25 MB</td>
+                </tr>
+                <tr>
+                    <th>Security & Sandbox</th>
+                    <td>Apple App Sandbox Enabled • 100% Offline • Zero Outgoing Connections</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Download CTA Box -->
+    <section class="download-section">
+        <div class="download-box">
+            <img src="images/icon.png" alt="MiniStats Icon" class="download-icon">
+            <h2 class="download-title">Get MiniStats on the Mac App Store</h2>
+            <p class="download-subtitle">100% Free • macOS 14.0 Sonoma or later • Universal 2 for Apple Silicon & Intel</p>
+            <div class="cta-group" style="margin-top: 24px;">
+                <a href="https://apps.apple.com/app/ministats-system-monitor/id6820877282" class="btn-primary" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.84c.64-.78 1.08-1.86.96-2.95-1 .04-2.18.67-2.88 1.48-.61.71-1.15 1.83-1.01 2.91 1.12.09 2.29-.66 2.93-1.44z"/>
+                    </svg>
+                    Download on Mac App Store
+                </a>
+                <a href="https://github.com/ntt339/softs" class="btn-secondary" target="_blank">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Highlight -->
+    <section class="privacy-highlight">
+        <div class="privacy-box">
+            <h3>
+                <span>🔒</span>
+                Strict Privacy by Design
+            </h3>
+            <p>
+                MiniStats runs completely locally inside Apple's secure App Sandbox. It has zero tracking, zero analytics, zero external network requests, and never transmits your data anywhere. Your hardware statistics and running applications remain 100% yours.
+            </p>
+            <a href="privacy.html" class="btn-secondary" style="background: rgba(255,255,255,0.12);">
+                Read Full Privacy Policy
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 THANG TRUONG NGOC. All rights reserved.</p>
+        <p style="margin-top: 10px;">
+            <a href="https://apps.apple.com/app/ministats-system-monitor/id6820877282" target="_blank">Mac App Store</a> • 
+            <a href="privacy.html">Privacy Policy</a> • 
+            <a href="https://github.com/ntt339/softs" target="_blank">GitHub Repository</a> • 
+            <a href="mailto:support@thangtn.com">Support</a>
+        </p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - MiniStats</title>
+    <meta name="description" content="Privacy Policy for MiniStats - Minimalist System Monitor for macOS. We respect your privacy and collect zero personal data.">
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <style>
+        :root {
+            --bg: #090b10;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent-blue: #0a84ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 40px 20px 80px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .app-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-brand img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+        }
+
+        .app-brand span {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .last-updated {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+        }
+
+        .highlight-box {
+            background: rgba(48, 209, 88, 0.08);
+            border: 1px solid rgba(48, 209, 88, 0.25);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 36px;
+        }
+
+        .highlight-box p {
+            color: #d1fae5;
+            font-weight: 500;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 36px;
+            margin-bottom: 14px;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+        }
+
+        p, ul {
+            color: #a1a1a6;
+            margin-bottom: 18px;
+            font-size: 1.02rem;
+        }
+
+        ul {
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            color: var(--text-primary);
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="app-brand">
+                <img src="images/icon.png" alt="MiniStats Icon">
+                <span>MiniStats</span>
+            </div>
+            <a href="index.html" class="back-link">← Back to Overview</a>
+        </header>
+
+        <h1>Privacy Policy</h1>
+        <div class="last-updated">Last Updated: October 26, 2026</div>
+
+        <div class="highlight-box">
+            <p><strong>Summary:</strong> MiniStats does not collect, store, transmit, or share any personal data, analytics, or hardware telemetry. Everything operates 100% locally on your Mac with zero internet communication.</p>
+        </div>
+
+        <h2>1. Overview</h2>
+        <p>
+            MiniStats ("the Application", "we", "our") is designed by THANG TRUONG NGOC as a lightweight, privacy-first system monitoring utility for macOS. We firmly believe that your hardware statistics, running applications, and system performance telemetry belong exclusively to you.
+        </p>
+
+        <h2>2. Data Collection and Usage</h2>
+        <p>
+            <strong>We do not collect any personal data whatsoever.</strong>
+        </p>
+        <ul>
+            <li><strong>No Personal Information:</strong> We do not ask for, gather, or store your name, email address, IP address, device serial numbers, or location.</li>
+            <li><strong>No Telemetry or Analytics:</strong> The Application contains no third-party tracking frameworks, crash analytics SDKs, or behavioral trackers (no Google Analytics, no Firebase, no Facebook SDK, etc.).</li>
+            <li><strong>No User Identification:</strong> We do not generate unique identifiers or track user interaction patterns.</li>
+            <li><strong>No Network Transmission:</strong> MiniStats operates entirely offline and makes zero remote network connections.</li>
+        </ul>
+
+        <h2>3. Local System Metrics</h2>
+        <p>
+            To perform its core functions, MiniStats queries macOS hardware and system APIs strictly in real-time, volatile memory (RAM):
+        </p>
+        <ul>
+            <li><strong>CPU & GPU Metrics:</strong> Core utilization percentages, Performance vs. Efficiency core breakdown, and hardware temperature sensor readings via Apple SMC and IOKit.</li>
+            <li><strong>Memory (RAM):</strong> Real-time breakdown of used memory versus total physical system capacity.</li>
+            <li><strong>Physical Network Counters:</strong> Physical interface byte counters (Wi-Fi, Ethernet) to display live upload and download rates.</li>
+            <li><strong>Power & Battery:</strong> Battery percentage, charging/discharging wattage in Watts (`W`), adapter specifications, and runtime estimates.</li>
+            <li><strong>Storage Partitions:</strong> Mounted internal volume names and remaining capacity via macOS standard `FileManager` APIs.</li>
+            <li><strong>Running Processes:</strong> Ephemeral queries of running application names, CPU%, and memory using Darwin `proc_pidinfo` to display top resource-heavy applications. This inspection occurs solely in volatile RAM while the popover is actively displayed.</li>
+        </ul>
+        <p>
+            <strong>Important:</strong> All readings are strictly computed on-device in transient volatile memory. None of these readings are ever written to persistent remote storage, logged to disk, or transmitted over any network.
+        </p>
+
+        <h2>4. Local Notifications & Permissions</h2>
+        <p>
+            MiniStats includes an optional Smart Battery Reminder feature that notifies users when their battery drops below specific thresholds (50%, 40%, ≤30%).
+        </p>
+        <ul>
+            <li>Notifications are dispatched <strong>100% locally on your Mac</strong> using Apple's native `UNUserNotificationCenter` framework.</li>
+            <li>No remote Apple Push Notification service (APNs) or third-party notification servers are used.</li>
+            <li>You can disable battery reminders at any time in the app's Settings panel or through macOS System Settings.</li>
+        </ul>
+
+        <h2>5. Network Permissions & Sandbox</h2>
+        <p>
+            MiniStats runs inside Apple's strict <strong>App Sandbox</strong> environment. The network client entitlement is configured solely to query physical network interface byte counters via native Darwin socket APIs. MiniStats makes zero remote server connections and transmits zero bytes of data outside your computer.
+        </p>
+
+        <h2>6. In-App Purchases & Pricing</h2>
+        <p>
+            MiniStats is <strong>100% free</strong>. It contains no in-app purchases, no subscriptions, no paywalls, and no third-party advertisements.
+        </p>
+
+        <h2>7. Children’s Privacy</h2>
+        <p>
+            Because MiniStats does not collect any personal information from anyone, it complies with COPPA (Children’s Online Privacy Protection Act) and does not gather data from children under any age.
+        </p>
+
+        <h2>8. Changes to This Privacy Policy</h2>
+        <p>
+            We may update our Privacy Policy from time to time. Any changes will be posted immediately on this page with an updated "Last Updated" timestamp.
+        </p>
+
+        <h2>9. Contact Us</h2>
+        <p>
+            If you have any questions or feedback regarding this Privacy Policy or the security of MiniStats, please contact us:
+        </p>
+        <ul>
+            <li><strong>Developer:</strong> THANG TRUONG NGOC</li>
+            <li><strong>Mac App Store:</strong> <a href="https://apps.apple.com/app/ministats-system-monitor/id6820877282" style="color: var(--accent-blue);" target="_blank">MiniStats on App Store</a></li>
+            <li><strong>GitHub Repository:</strong> <a href="https://github.com/ntt339/softs" style="color: var(--accent-blue);">https://github.com/ntt339/softs</a></li>
+        </ul>
+
+        <footer>
+            <p>© 2026 THANG TRUONG NGOC. All rights reserved.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
