@@ -131,6 +131,6 @@ Switch instantly between 11 languages without restarting the application:
 
 ## 📄 License & Privacy
 
-* Developed by **THANG TRUONG NGOC**.
+* Developed by **NGOC THANG TRUONG**.
 * Copyright © 2026. All rights reserved.
 * For more information, please read the [Privacy Policy](https://ntt339.github.io/softs/privacy.html).

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THANG TRUONG NGOC - Apple Developer Portfolio & Software Lab</title>
-    <meta name="description" content="Official Apple Developer portfolio of THANG TRUONG NGOC. High-fidelity 3D simulation sports, mathematical logic puzzles, and lightweight macOS menu bar utilities.">
+    <title>NGOC THANG TRUONG - Apple Developer Portfolio & Software Lab</title>
+    <meta name="description" content="Official Apple Developer portfolio of NGOC THANG TRUONG. High-fidelity 3D simulation sports, mathematical logic puzzles, and lightweight macOS menu bar utilities.">
     <link rel="icon" type="image/png" href="games/river-crossing/assets/icon.png">
 
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ntt339.github.io/">
-    <meta property="og:title" content="THANG TRUONG NGOC - Developer Portfolio">
+    <meta property="og:title" content="NGOC THANG TRUONG - Developer Portfolio">
     <meta property="og:description" content="Official Apple Developer portfolio featuring River IQ, Carom GO, and MiniStats for iOS, iPadOS, and macOS.">
     <meta property="og:image" content="https://ntt339.github.io/games/river-crossing/assets/splash.jpg">
 
@@ -432,13 +432,28 @@
             font-weight: 500;
         }
 
-        /* Card Action Links */
+        /* Card Action Links - Clean Single Row */
         .app-actions {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             border-top: 1px solid var(--border);
-            padding-top: 20px;
+            padding-top: 18px;
+        }
+
+        .app-actions .btn {
+            flex: 1 1 0;
+            min-width: 0;
+            padding: 9px 4px;
+            font-size: 12px;
+            justify-content: center;
+            text-align: center;
+            white-space: nowrap;
+            letter-spacing: -0.2px;
+        }
+
+        @media (max-width: 480px) {
+            .app-actions { gap: 5px; }
+            .app-actions .btn { padding: 8px 2px; font-size: 11px; }
         }
 
         /* Highlight Banner Box */
@@ -524,7 +539,7 @@
         <div class="nav-inner">
             <a href="index.html" class="brand">
                 <img src="games/river-crossing/assets/icon.png" alt="Developer Logo" class="brand-avatar">
-                <span>THANG TRUONG NGOC</span>
+                <span>NGOC THANG TRUONG</span>
             </a>
             <ul class="nav-menu">
                 <li><a href="#games">Games</a></li>
@@ -539,7 +554,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <span class="badge"> Apple Developer Portfolio</span>
-        <h1 class="hero-title">THANG TRUONG NGOC</h1>
+        <h1 class="hero-title">NGOC THANG TRUONG</h1>
         <p class="hero-desc">
             Independent software & game developer crafting high-fidelity simulation sports, algorithmic logic puzzles, and privacy-first utilities for Apple platforms.
         </p>
@@ -599,8 +614,8 @@
                     </div>
 
                     <div class="app-actions">
-                        <a href="games/river-crossing/index.html" class="btn btn-cyan">Overview & Rules</a>
-                        <a href="https://apps.apple.com/app/river-iq-river-crossing/id6823205074" target="_blank" rel="noopener" class="btn btn-store"> App Store ↗</a>
+                        <a href="games/river-crossing/index.html" class="btn btn-cyan">Overview</a>
+                        <a href="https://apps.apple.com/app/river-iq-river-crossing/id6823205074" target="_blank" rel="noopener" class="btn btn-store"> App Store</a>
                         <a href="games/river-crossing/privacy-policy.html" class="btn btn-outline">Privacy</a>
                         <a href="games/river-crossing/support.html" class="btn btn-outline">Support</a>
                     </div>
@@ -638,8 +653,8 @@
                     </div>
 
                     <div class="app-actions">
-                        <a href="games/carom/index.html" class="btn btn-green">Overview & Gameplay</a>
-                        <a href="https://apps.apple.com/app/carom-go-3-cushion-libre/id6818040140" target="_blank" rel="noopener" class="btn btn-store"> App Store ↗</a>
+                        <a href="games/carom/index.html" class="btn btn-green">Overview</a>
+                        <a href="https://apps.apple.com/app/carom-go-3-cushion-libre/id6818040140" target="_blank" rel="noopener" class="btn btn-store"> App Store</a>
                         <a href="games/carom/privacy-policy.html" class="btn btn-outline">Privacy</a>
                         <a href="games/carom/support.html" class="btn btn-outline">Support</a>
                     </div>
@@ -692,9 +707,9 @@
                     </div>
 
                     <div class="app-actions">
-                        <a href="softs/index.html" class="btn btn-orange">Overview & Telemetry</a>
-                        <a href="https://apps.apple.com/app/ministats-system-monitor/id6820877282" target="_blank" rel="noopener" class="btn btn-store"> Mac App Store ↗</a>
-                        <a href="https://github.com/ntt339/softs" target="_blank" rel="noopener" class="btn btn-outline">GitHub Repo</a>
+                        <a href="softs/index.html" class="btn btn-orange">Overview</a>
+                        <a href="https://apps.apple.com/app/ministats-system-monitor/id6820877282" target="_blank" rel="noopener" class="btn btn-store"> Mac App</a>
+                        <a href="https://github.com/ntt339/softs" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
                         <a href="softs/privacy.html" class="btn btn-outline">Privacy</a>
                     </div>
                 </article>
@@ -733,7 +748,7 @@
             <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" target="_blank" rel="noopener">Apple Developer Portfolio ↗</a>
             <a href="mailto:ngocthang@gmail.com">ngocthang@gmail.com</a>
         </div>
-        <p>&copy; 2026 THANG TRUONG NGOC. All rights reserved.</p>
+        <p>&copy; 2026 NGOC THANG TRUONG. All rights reserved.</p>
     </footer>
 
 </body>
