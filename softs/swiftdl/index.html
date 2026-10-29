@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftDL - High-Performance Turbo Download Manager for macOS</title>
+    <meta name="description" content="SwiftDL is a blazing-fast, 100% native download manager for macOS. Accelerate downloads with multi-threaded segmenting, dynamic speed limiter, smart scheduler, and YouTube video capture.">
+    <link rel="icon" type="image/png" href="images/icon.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ntt339.github.io/softs/swiftdl/">
+    <meta property="og:title" content="SwiftDL - High-Performance Download Manager for macOS">
+    <meta property="og:description" content="Accelerate downloads with 8x multi-threaded segmented chunking, dynamic speed limiter, smart queue scheduler, and 100% native Swift 6 architecture for macOS.">
+    <meta property="og:image" content="https://ntt339.github.io/softs/swiftdl/images/icon.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ntt339.github.io/softs/swiftdl/">
+    <meta property="twitter:title" content="SwiftDL - Turbo Download Manager for macOS">
+    <meta property="twitter:description" content="Multi-threaded segmented downloading, speed throttling, automated scheduling, and 11 international languages for macOS. 100% Free & Sandboxed.">
+    <meta property="twitter:image" content="https://ntt339.github.io/softs/swiftdl/images/icon.png">
+
+    <style>
+        :root {
+            --bg: #090b10;
+            --bg-elevated: #11151f;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(56, 189, 248, 0.35);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-cyan: #38bdf8;
+            --accent-blue: #0a84ff;
+            --accent-indigo: #6366f1;
+            --accent-green: #30d158;
+            --accent-purple: #bf5af2;
+            --accent-orange: #ff9f0a;
+            --accent-red: #ff453a;
+            --glow-cyan: rgba(56, 189, 248, 0.25);
+            --glow-blue: rgba(10, 132, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Top Navigation */
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .logo-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .btn-nav-appstore {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(10, 132, 255, 0.2) 100%);
+            color: var(--text-primary) !important;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-nav-appstore:hover {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(10, 132, 255, 0.35) 100%);
+            border-color: var(--accent-cyan);
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1000px;
+            margin: 50px auto 60px;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .badge-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-cyan);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+
+        .hero-badge.free {
+            background: rgba(48, 209, 88, 0.12);
+            color: var(--accent-green);
+            border-color: rgba(48, 209, 88, 0.28);
+        }
+
+        .hero-badge.purple {
+            background: rgba(191, 90, 242, 0.12);
+            color: var(--accent-purple);
+            border-color: rgba(191, 90, 242, 0.28);
+        }
+
+        .hero-title {
+            font-size: 3.8rem;
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            line-height: 1.12;
+            margin-bottom: 22px;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 38px;
+            font-weight: 400;
+            line-height: 1.65;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            color: #000000;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.02rem;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.35);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            padding: 14px 26px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 1px solid var(--card-border);
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Metrics Banner */
+        .metrics-banner {
+            max-width: 1140px;
+            margin: 0 auto 80px;
+            padding: 0 24px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 28px 24px;
+            backdrop-filter: blur(12px);
+        }
+
+        .metric-item {
+            text-align: center;
+            border-right: 1px solid var(--card-border);
+        }
+
+        .metric-item:last-child {
+            border-right: none;
+        }
+
+        .metric-val {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .metric-val.cyan { color: var(--accent-cyan); }
+        .metric-val.green { color: var(--accent-green); }
+        .metric-val.blue { color: var(--accent-blue); }
+        .metric-val.purple { color: var(--accent-purple); }
+
+        .metric-lbl {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Interactive App UI Mockup Showcase */
+        .showcase {
+            max-width: 1140px;
+            margin: 0 auto 110px;
+            padding: 0 24px;
+        }
+
+        .app-window {
+            background: #0f141d;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 35px 90px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.15);
+        }
+
+        .window-titlebar {
+            background: #141a26;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .traffic-lights {
+            display: flex;
+            gap: 7px;
+        }
+
+        .tl-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .tl-red { background: #ff5f56; }
+        .tl-yellow { background: #ffbd2e; }
+        .tl-green { background: #27c93f; }
+
+        .titlebar-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: 0 auto;
+            transform: translateX(-26px);
+        }
+
+        .window-body {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            min-height: 480px;
+        }
+
+        /* Mockup Sidebar */
+        .mock-sidebar {
+            background: rgba(15, 20, 29, 0.95);
+            border-right: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 18px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            font-size: 0.88rem;
+        }
+
+        .mock-group-title {
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            padding: 0 8px;
+            margin-bottom: 6px;
+        }
+
+        .mock-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 7px 10px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .mock-item.active {
+            background: rgba(56, 189, 248, 0.14);
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .mock-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mock-pill {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .mock-item.active .mock-pill {
+            background: rgba(56, 189, 248, 0.25);
+            color: var(--accent-cyan);
+        }
+
+        /* Mockup Detail / Content */
+        .mock-content {
+            padding: 18px 22px;
+            background: #0b0f16;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mock-add-bar {
+            display: flex;
+            gap: 10px;
+            background: #141c28;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 7px 12px;
+            align-items: center;
+        }
+
+        .mock-add-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            outline: none;
+        }
+
+        .mock-btn-add {
+            background: var(--accent-blue);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+        }
+
+        .mock-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .mock-download-card {
+            background: #131924;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: border-color 0.2s ease;
+        }
+
+        .mock-download-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .mock-dl-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .mock-dl-file {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mock-file-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+
+        .mock-file-icon.movie {
+            background: rgba(191, 90, 242, 0.12);
+            color: var(--accent-purple);
+            border-color: rgba(191, 90, 242, 0.25);
+        }
+
+        .mock-file-icon.app {
+            background: rgba(48, 209, 88, 0.12);
+            color: var(--accent-green);
+            border-color: rgba(48, 209, 88, 0.25);
+        }
+
+        .mock-file-meta h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .mock-file-meta p {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .mock-dl-badges {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .mock-speed-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .mock-thread-badge {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--accent-indigo);
+            background: rgba(99, 102, 241, 0.12);
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(99, 102, 241, 0.25);
+        }
+
+        .mock-progress-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mock-progress-bar {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #38bdf8 0%, #0a84ff 100%);
+        }
+
+        .mock-dl-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* Features Section */
+        .features {
+            max-width: 1200px;
+            margin: 0 auto 120px;
+            padding: 0 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px 28px;
+            transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            border-color: var(--card-hover-border);
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .feature-icon-box {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.45rem;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            flex-shrink: 0;
+        }
+
+        .feature-title {
+            font-size: 1.22rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.96rem;
+            line-height: 1.6;
+        }
+
+        /* Deep Dive Section */
+        .deepdive {
+            max-width: 1200px;
+            margin: 0 auto 120px;
+            padding: 0 24px;
+        }
+
+        .deepdive-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .deepdive-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px 26px;
+        }
+
+        .deepdive-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+
+        .deepdive-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .deepdive-card li {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            font-size: 0.93rem;
+            line-height: 1.55;
+        }
+
+        .deepdive-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 2px;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        /* Languages Banner */
+        .lang-banner {
+            max-width: 1140px;
+            margin: 0 auto 120px;
+            padding: 0 24px;
+        }
+
+        .lang-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 36px 30px;
+            text-align: center;
+        }
+
+        .lang-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .lang-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-primary);
+        }
+
+        /* Tech Specs Table */
+        .techspecs {
+            max-width: 1140px;
+            margin: 0 auto 110px;
+            padding: 0 24px;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .specs-table th, .specs-table td {
+            padding: 16px 24px;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.95rem;
+        }
+
+        .specs-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.02);
+            width: 32%;
+        }
+
+        .specs-table td {
+            color: var(--text-primary);
+        }
+
+        .specs-table tr:last-child th,
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Download Call-to-Action Section */
+        .download-section {
+            max-width: 1140px;
+            margin: 0 auto 100px;
+            padding: 0 24px;
+        }
+
+        .download-box {
+            background: linear-gradient(180deg, rgba(56, 189, 248, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 24px;
+            padding: 56px 36px;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+        }
+
+        .download-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            margin-bottom: 22px;
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .download-title {
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 14px;
+        }
+
+        .download-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.12rem;
+            max-width: 640px;
+            margin: 0 auto 32px;
+        }
+
+        /* Privacy Banner */
+        .privacy-highlight {
+            max-width: 1140px;
+            margin: 0 auto 120px;
+            padding: 0 24px;
+        }
+
+        .privacy-box {
+            background: linear-gradient(135deg, rgba(48, 209, 88, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+            border: 1px solid rgba(48, 209, 88, 0.28);
+            border-radius: 22px;
+            padding: 44px 36px;
+            text-align: center;
+        }
+
+        .privacy-box h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: -0.015em;
+        }
+
+        .privacy-box p {
+            color: var(--text-secondary);
+            max-width: 760px;
+            margin: 0 auto 24px;
+            font-size: 1.05rem;
+            line-height: 1.65;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--card-border);
+            padding: 48px 24px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .hero-title { font-size: 2.8rem; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .metric-item:nth-child(2) { border-right: none; }
+            .deepdive-grid { grid-template-columns: 1fr; }
+            .window-body { grid-template-columns: 1fr; }
+            .mock-sidebar { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title { font-size: 2.2rem; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .metric-item { border-right: none; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; }
+            .metric-item:last-child { border-bottom: none; }
+            .nav-links { gap: 12px; }
+            .download-title { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav>
+        <a href="index.html" class="logo-container">
+            <img src="images/icon.png" alt="SwiftDL Icon" class="logo-img">
+            <span class="logo-title">SwiftDL</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#deepdive">Architecture</a>
+            <a href="#languages">Languages</a>
+            <a href="#specs">Specs</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="../../index.html">Developer Home</a>
+            <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" class="btn-nav-appstore" target="_blank">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.84c.64-.78 1.08-1.86.96-2.95-1 .04-2.18.67-2.88 1.48-.61.71-1.15 1.83-1.01 2.91 1.12.09 2.29-.66 2.93-1.44z"/>
+                </svg>
+                Mac App Store
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="badge-group">
+            <div class="hero-badge">macOS 13.0+ • Ventura, Sonoma, Sequoia</div>
+            <div class="hero-badge purple">Universal 2 • Apple Silicon & Intel</div>
+            <div class="hero-badge free">100% Free & Privacy-First</div>
+            <div class="hero-badge">11 Languages Localized</div>
+        </div>
+
+        <h1 class="hero-title">Turbocharge Your Downloads on <span>macOS</span></h1>
+
+        <p class="hero-subtitle">
+            A blazing-fast, ultra-lightweight, and 100% native download manager engineered exclusively for macOS. Experience multi-threaded segmented acceleration, dynamic token-bucket speed throttling, flexible queue scheduling, and seamless media extraction.
+        </p>
+
+        <div class="cta-group">
+            <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" class="btn-primary" target="_blank">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.84c.64-.78 1.08-1.86.96-2.95-1 .04-2.18.67-2.88 1.48-.61.71-1.15 1.83-1.01 2.91 1.12.09 2.29-.66 2.93-1.44z"/>
+                </svg>
+                Download on Mac App Store
+            </a>
+            <a href="https://github.com/ntt339/SwiftDL" class="btn-secondary" target="_blank">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+                GitHub Repository
+            </a>
+            <a href="privacy.html" class="btn-secondary">Privacy Policy</a>
+        </div>
+    </section>
+
+    <!-- Metrics Banner -->
+    <section class="metrics-banner">
+        <div class="metrics-grid">
+            <div class="metric-item">
+                <div class="metric-val cyan">Up to 8x</div>
+                <div class="metric-lbl">Multi-Segment Acceleration</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val green">0.0%</div>
+                <div class="metric-lbl">Background CPU Drain at Idle</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val blue">11</div>
+                <div class="metric-lbl">Global Languages Included</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val purple">100% Local</div>
+                <div class="metric-lbl">Sandboxed & Zero Telemetry</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App UI Mockup Showcase -->
+    <section class="showcase" id="showcase">
+        <div class="app-window">
+            <div class="window-titlebar">
+                <div class="traffic-lights">
+                    <span class="tl-dot tl-red"></span>
+                    <span class="tl-dot tl-yellow"></span>
+                    <span class="tl-dot tl-green"></span>
+                </div>
+                <span class="titlebar-text">SwiftDL — Turbo Download Manager</span>
+            </div>
+            <div class="window-body">
+                <!-- Sidebar -->
+                <div class="mock-sidebar">
+                    <div>
+                        <div class="mock-group-title">Library</div>
+                        <div class="mock-item active">
+                            <span class="mock-item-left"><span>📥</span> All Downloads</span>
+                            <span class="mock-pill">5</span>
+                        </div>
+                        <div class="mock-item">
+                            <span class="mock-item-left"><span>⚡</span> Downloading</span>
+                            <span class="mock-pill">2</span>
+                        </div>
+                        <div class="mock-item">
+                            <span class="mock-item-left"><span>✓</span> Finished</span>
+                            <span class="mock-pill">2</span>
+                        </div>
+                        <div class="mock-item">
+                            <span class="mock-item-left"><span>⏱️</span> Scheduled</span>
+                            <span class="mock-pill">1</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="mock-group-title">Categories</div>
+                        <div class="mock-item">
+                            <span class="mock-item-left"><span>📦</span> Applications</span>
+                            <span class="mock-pill">1</span>
+                        </div>
+                        <div class="mock-item">
+                            <span class="mock-item-left"><span>🗄️</span> Archives</span>
+                            <span class="mock-pill">1</span>
+                        </div>
+                        <div class="mock-item">
+                            <span class="mock-item-left"><span>🎬</span> Movies & Video</span>
+                            <span class="mock-pill">2</span>
+                        </div>
+                        <div class="mock-item">
+                            <span class="mock-item-left"><span>🎵</span> Music</span>
+                            <span class="mock-pill">1</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06);">
+                        <div class="mock-group-title">Storage</div>
+                        <div class="mock-item" style="font-size: 0.8rem; color: var(--accent-cyan);">
+                            <span>📁 ~/Downloads</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="mock-content">
+                    <!-- Quick Add Bar -->
+                    <div class="mock-add-bar">
+                        <span style="color: var(--accent-cyan); font-size: 1rem;">🔗</span>
+                        <input type="text" class="mock-add-input" placeholder="Paste download URL or video link..." value="https://cdn.example.org/releases/developer-toolchain-v2.dmg" readonly>
+                        <span class="mock-thread-badge">8 Threads</span>
+                        <button class="mock-btn-add">Download</button>
+                    </div>
+
+                    <!-- Toolbar Actions -->
+                    <div class="mock-toolbar">
+                        <span>Speed Limit: <strong>Unlimited</strong> • Active: <strong>2/3 Tasks</strong></span>
+                        <span>Auto-Scheduler: <strong>Active (01:00 – 06:00)</strong></span>
+                    </div>
+
+                    <!-- Task 1: Downloading 8-Threads -->
+                    <div class="mock-download-card">
+                        <div class="mock-dl-top">
+                            <div class="mock-dl-file">
+                                <div class="mock-file-icon app">📦</div>
+                                <div class="mock-file-meta">
+                                    <h4>Xcode_16_Toolchain_Universal.dmg</h4>
+                                    <p>https://download.developer.apple.com/ ... • 4.85 GB</p>
+                                </div>
+                            </div>
+                            <div class="mock-dl-badges">
+                                <span class="mock-thread-badge">8 Threads Parallel</span>
+                                <span class="mock-speed-badge">⚡ 28.4 MB/s</span>
+                            </div>
+                        </div>
+                        <div class="mock-progress-track">
+                            <div class="mock-progress-bar" style="width: 68%;"></div>
+                        </div>
+                        <div class="mock-dl-bottom">
+                            <span>3.30 GB of 4.85 GB (68%)</span>
+                            <span>Remaining: <strong>00:00:54</strong> • Range-Resume Supported</span>
+                        </div>
+                    </div>
+
+                    <!-- Task 2: 4K Video Downloader -->
+                    <div class="mock-download-card">
+                        <div class="mock-dl-top">
+                            <div class="mock-dl-file">
+                                <div class="mock-file-icon movie">🎬</div>
+                                <div class="mock-file-meta">
+                                    <h4>macOS_Sequoia_Keynote_HDR_4K.mp4</h4>
+                                    <p>YouTube Media Stream • 1.42 GB</p>
+                                </div>
+                            </div>
+                            <div class="mock-dl-badges">
+                                <span class="mock-thread-badge">yt-dlp Engine</span>
+                                <span class="mock-speed-badge">⚡ 16.2 MB/s</span>
+                            </div>
+                        </div>
+                        <div class="mock-progress-track">
+                            <div class="mock-progress-bar" style="width: 42%; background: linear-gradient(90deg, #bf5af2, #38bdf8);"></div>
+                        </div>
+                        <div class="mock-dl-bottom">
+                            <span>596.4 MB of 1.42 GB (42%)</span>
+                            <span>Remaining: <strong>00:00:51</strong> • Audio+Video Muxing</span>
+                        </div>
+                    </div>
+
+                    <!-- Task 3: Finished Item -->
+                    <div class="mock-download-card" style="opacity: 0.85;">
+                        <div class="mock-dl-top">
+                            <div class="mock-dl-file">
+                                <div class="mock-file-icon">🗄️</div>
+                                <div class="mock-file-meta">
+                                    <h4>OpenSource_Swift_CoreLibraries.tar.gz</h4>
+                                    <p>Downloaded to ~/Downloads • 850 MB</p>
+                                </div>
+                            </div>
+                            <div class="mock-dl-badges">
+                                <span style="color: var(--accent-green); font-size: 0.78rem; font-weight: 700;">✓ Finished</span>
+                            </div>
+                        </div>
+                        <div class="mock-progress-track">
+                            <div class="mock-progress-bar" style="width: 100%; background: var(--accent-green);"></div>
+                        </div>
+                        <div class="mock-dl-bottom">
+                            <span>850 MB • Completed</span>
+                            <span style="color: var(--accent-cyan); cursor: pointer;">Show in Finder ↗</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-tag">High-Performance Engineering</div>
+            <h2 class="section-title">Designed for Power, Built for Mac</h2>
+            <p class="section-subtitle">
+                Everything you expect from an elite download accelerator, packaged with the simplicity and elegance of native macOS architecture.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <!-- Feature 1: Multi-Threading -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">⚡</div>
+                    <h3 class="feature-title">8x Segmented Acceleration</h3>
+                </div>
+                <p class="feature-desc">
+                    SwiftDL splits target files into 1, 2, 4, or 8 parallel chunks utilizing HTTP <code>Range</code> headers. Each segment streams concurrently over independent connections and writes directly into pre-allocated file blocks, maximizing bandwidth utilization.
+                </p>
+            </div>
+
+            <!-- Feature 2: Speed Limiter -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🚦</div>
+                    <h3 class="feature-title">Dynamic Speed Limiter</h3>
+                </div>
+                <p class="feature-desc">
+                    Keep your Zoom meetings, 4K video streams, and online gaming silky smooth. A precision sliding-window token bucket algorithm throttles download bandwidth on-the-fly with quick presets (500 KB/s, 1 MB/s, 2 MB/s, 5 MB/s) or your custom rate.
+                </p>
+            </div>
+
+            <!-- Feature 3: Scheduler -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">⏱️</div>
+                    <h3 class="feature-title">Smart Queue Scheduler</h3>
+                </div>
+                <p class="feature-desc">
+                    Schedule heavy downloads to execute during off-peak hours (e.g., 1:00 AM – 6:00 AM). Select specific active days of the week, automate queue start/stop sequences, and receive local macOS notifications upon batch completion.
+                </p>
+            </div>
+
+            <!-- Feature 4: YouTube & Media -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🎥</div>
+                    <h3 class="feature-title">YouTube & Video Downloader</h3>
+                </div>
+                <p class="feature-desc">
+                    Integrated support for online media via automatic detection of <code>yt-dlp</code> across Homebrew, Python framework paths, and standard binaries. Download video streams directly through the same unified queue.
+                </p>
+            </div>
+
+            <!-- Feature 5: Clipboard Auto-Detect -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">📋</div>
+                    <h3 class="feature-title">Instant Clipboard Integration</h3>
+                </div>
+                <p class="feature-desc">
+                    Copy any download link in Safari or Chrome, and SwiftDL auto-detects valid URLs upon focus. Paste instantly into the top quick-bar or tap the add button to configure thread count and target folder.
+                </p>
+            </div>
+
+            <!-- Feature 6: Smart Categorization -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">📂</div>
+                    <h3 class="feature-title">Automated File Organization</h3>
+                </div>
+                <p class="feature-desc">
+                    Incoming downloads are automatically classified into intuitive categories: Applications (<code>dmg</code>, <code>pkg</code>), Archives (<code>zip</code>, <code>rar</code>, <code>7z</code>, <code>iso</code>), Movies (<code>mp4</code>, <code>mkv</code>), Music, and Documents.
+                </p>
+            </div>
+
+            <!-- Feature 7: Resilient Resume -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🔄</div>
+                    <h3 class="feature-title">Pause, Resume & Auto-Retry</h3>
+                </div>
+                <p class="feature-desc">
+                    Never lose download progress to spotty Wi-Fi or accidental drops. SwiftDL persists segment byte offsets to disk, enabling instant resume for servers supporting HTTP byte ranges without redownloading from scratch.
+                </p>
+            </div>
+
+            <!-- Feature 8: App Sandbox -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon-box">🛡️</div>
+                    <h3 class="feature-title">100% Sandboxed & Safe</h3>
+                </div>
+                <p class="feature-desc">
+                    Strictly compliant with Apple App Store Review Guidelines and macOS App Sandbox security. All file operations remain confined to user-selected directories with zero background privilege escalation or kernel extensions.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deep Dive Technical Architecture -->
+    <section class="deepdive" id="deepdive">
+        <div class="section-header">
+            <div class="section-tag">Under the Hood</div>
+            <h2 class="section-title">Engineered with Swift 6 Concurrency</h2>
+            <p class="section-subtitle">
+                A modern system architecture built without third-party bloat, memory leaks, or legacy baggage.
+            </p>
+        </div>
+
+        <div class="deepdive-grid">
+            <div class="deepdive-card">
+                <h3><span>⚡</span> Segment Chunk Engine</h3>
+                <ul>
+                    <li>HTTP <code>HEAD</code> probe detects file size and <code>Accept-Ranges: bytes</code> capability.</li>
+                    <li>Pre-allocates final file on disk via low-level <code>FileHandle.truncate(atOffset:)</code>.</li>
+                    <li>Fires concurrent <code>URLSessionDataTask</code> workers writing at calculated byte offsets.</li>
+                    <li>Automatic fallback to reliable single-stream download if server lacks range support.</li>
+                </ul>
+            </div>
+
+            <div class="deepdive-card">
+                <h3><span>🚦</span> Token-Bucket Throttling</h3>
+                <ul>
+                    <li>Thread-safe <code>NSLock</code> protected sliding 1.0-second time window.</li>
+                    <li>Calculates microsecond delay when incoming packet volume exceeds rate quota.</li>
+                    <li>Zero packet drops and smooth network coexistence for video calls & cloud backups.</li>
+                    <li>Immediate parameter tuning without restarting or pausing active download streams.</li>
+                </ul>
+            </div>
+
+            <div class="deepdive-card">
+                <h3><span>🍎</span> Native macOS Integration</h3>
+                <ul>
+                    <li>100% pure SwiftUI reactive state powered by Combine and Swift Concurrency actors.</li>
+                    <li>Apple Silicon M-series optimized with near-zero idle CPU and memory consumption.</li>
+                    <li>Rich contextual menus, Finder file reveal (<code>selectFile:inFileViewerRootedAtPath:</code>).</li>
+                    <li>Full dark & light mode adaptation obeying macOS appearance settings.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Multilingual Support Banner -->
+    <section class="lang-banner" id="languages">
+        <div class="lang-box">
+            <div class="section-tag">Global Localization</div>
+            <h2 class="section-title" style="font-size: 2rem;">11 Languages Out of the Box</h2>
+            <p class="section-subtitle">
+                SwiftDL automatically adapts to your macOS preferred system language, with the flexibility to switch anytime via in-app preferences.
+            </p>
+            <div class="lang-pills">
+                <span class="lang-pill">🇬🇧 English</span>
+                <span class="lang-pill">🇩🇪 Deutsch</span>
+                <span class="lang-pill">🇫🇷 Français</span>
+                <span class="lang-pill">🇪🇸 Español</span>
+                <span class="lang-pill">🇵🇹 Português</span>
+                <span class="lang-pill">🇹🇷 Türkçe</span>
+                <span class="lang-pill">🇯🇵 日本語</span>
+                <span class="lang-pill">🇰🇷 한국어</span>
+                <span class="lang-pill">🇲🇽 Español (México)</span>
+                <span class="lang-pill">🇩🇰 Dansk</span>
+                <span class="lang-pill">🇻🇳 Tiếng Việt</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section class="techspecs" id="specs">
+        <div class="section-header">
+            <div class="section-tag">Specifications</div>
+            <h2 class="section-title">Technical Details</h2>
+        </div>
+
+        <table class="specs-table">
+            <tbody>
+                <tr>
+                    <th>Target Operating System</th>
+                    <td>macOS 13.0 (Ventura), macOS 14.0 (Sonoma), macOS 15.0 (Sequoia) or later</td>
+                </tr>
+                <tr>
+                    <th>Hardware Architecture</th>
+                    <td>Universal Binary 2 — Apple Silicon (M1, M2, M3, M4) & Intel 64-bit</td>
+                </tr>
+                <tr>
+                    <th>Codebase & Frameworks</th>
+                    <td>Swift 6.0, SwiftUI, Combine, URLSession, AppKit, UserNotifications</td>
+                </tr>
+                <tr>
+                    <th>Sandboxing & Security</th>
+                    <td>Enforced <code>com.apple.security.app-sandbox</code> with user-selected directory read/write</td>
+                </tr>
+                <tr>
+                    <th>Multi-Threading Support</th>
+                    <td>1, 2, 4, 8 concurrent segments per file with HTTP Range RFC 7233</td>
+                </tr>
+                <tr>
+                    <th>Video Extraction Engine</th>
+                    <td>Integrated yt-dlp binary orchestration with path discovery</td>
+                </tr>
+                <tr>
+                    <th>Data Collection & Privacy</th>
+                    <td>100% Offline-First • Zero Analytics • Zero Third-Party Trackers • Zero Cloud Sync</td>
+                </tr>
+                <tr>
+                    <th>Licensing & Pricing</th>
+                    <td>100% Free Utility engineered by NGOC THANG TRUONG</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Download CTA Box -->
+    <section class="download-section">
+        <div class="download-box">
+            <img src="images/icon.png" alt="SwiftDL Icon" class="download-icon">
+            <h2 class="download-title">Get SwiftDL for macOS</h2>
+            <p class="download-subtitle">Fast, native, and completely free. Start supercharging your downloads today.</p>
+            <div class="cta-group">
+                <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" class="btn-primary" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.84c.64-.78 1.08-1.86.96-2.95-1 .04-2.18.67-2.88 1.48-.61.71-1.15 1.83-1.01 2.91 1.12.09 2.29-.66 2.93-1.44z"/>
+                    </svg>
+                    Download on Mac App Store
+                </a>
+                <a href="https://github.com/ntt339/SwiftDL" class="btn-secondary" target="_blank">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Commitment -->
+    <section class="privacy-highlight">
+        <div class="privacy-box">
+            <h3>🔒 Built with Privacy First</h3>
+            <p>
+                SwiftDL does not contain ads, third-party trackers, analytics frameworks, or account sign-ups. Your downloaded files, clipboard URLs, and schedule configurations stay strictly on your Mac.
+            </p>
+            <a href="privacy.html" class="btn-secondary">Read Full Privacy Policy &rarr;</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-nav">
+            <a href="../../index.html">Developer Portfolio</a>
+            <a href="../../index.html#games">Games</a>
+            <a href="../index.html">MiniStats</a>
+            <a href="index.html">SwiftDL</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="../../app-ads.txt">app-ads.txt</a>
+            <a href="https://apps.apple.com/us/developer/thang-truong-ngoc/id6818040142" target="_blank">Apple Developer Store ↗</a>
+            <a href="mailto:ngocthang@gmail.com">Contact Developer</a>
+        </div>
+        <p>&copy; 2026 NGOC THANG TRUONG. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
