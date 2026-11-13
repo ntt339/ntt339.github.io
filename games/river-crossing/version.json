@@ -1,0 +1,27 @@
+{
+  "latest_version": "1.1.4",
+  "latest_build": 32,
+  "min_version": "1.0.0",
+  "min_build": 1,
+  "force_update": false,
+  "release_date": "2026-11-13",
+  "stores": {
+    "ios": "https://apps.apple.com/app/id6823205074",
+    "android": "https://play.google.com/store/apps/details?id=com.thangtn.rivercrossing",
+    "macos": "https://apps.apple.com/app/id6823205074",
+    "default": "https://ntt339.github.io/games/river-crossing/"
+  },
+  "apk_url": "https://ntt339.github.io/games/river-crossing/RiverIQ.apk",
+  "release_notes": {
+    "vi": "• Mở rộng hỗ trợ 18 ngôn ngữ toàn cầu với giao diện Carousel trực quan.\n• Nâng cấp toàn bộ biểu tượng câu đố độ nét cao (HD).\n• Bổ sung cơ chế tự động kiểm tra bản cập nhật mới nhất.\n• Tối ưu hóa điều khiển cảm ứng và hiệu năng trên mọi thiết bị.",
+    "en": "• Expanded support for 18 global languages with intuitive Carousel selector.\n• Upgraded high-definition riddle objective and rule icons.\n• Added automatic update check and notification system.\n• Optimized touch controls and fluid performance across all devices.",
+    "zh": "• 全球扩展至18种语言，全新的轮播语言选择器。\n• 升级高清谜题目标与规则图标。\n• 新增最新版本自动检查与更新提醒机制。\n• 针对所有设备全面优化触控与性能体验。",
+    "ja": "• 世界18言語に対応、直感的なカルーセル言語セレクターを搭載。\n• 高解像度のパズル目標・ルールアイコンに刷新。\n• 最新バージョンの自動確認および更新通知機能を追加。\n• すべての端末でタッチ操作とパフォーマンスを最適化。",
+    "ko": "• 전 세계 18개 언어 지원 및 직관적인 캐러셀 언어 선택기 탑재.\n• 고해상도 퍼즐 목표 및 규칙 아이콘 업그레이드.\n• 최신 버전 자동 확인 및 업데이트 알림 시스템 추가.\n• 모든 기기에서 터치 조작 및 성능 최적화.",
+    "fr": "• Prise en charge de 18 langues avec sélecteur carrousel intuitif.\n• Icônes d'énigmes haute définition améliorées.\n• Ajout d'un système de vérification des mises à jour.\n• Commandes tactiles et performances optimisées.",
+    "de": "• Unterstützung für 18 Sprachen mit intuitivem Karussell-Wähler.\n• Gestochen scharfe Rätsel-Icons in High-Definition.\n• Automatisches Update-Prüfsystem hinzugefügt.\n• Optimierte Touch-Steuerung und flüssige Performance.",
+    "es": "• Expansión a 18 idiomas con selector de carrusel intuitivo.\n• Iconos de acertijos en alta definición mejorados.\n• Añadido sistema de comprobación de actualizaciones.\n• Controles táctiles y rendimiento optimizados.",
+    "pt": "• Suporte expandido para 18 idiomas com carrossel intuitivo.\n• Ícones de enigmas em alta definição.\n• Sistema de verificação de atualizações automáticas.\n• Controles de toque e desempenho otimizados.",
+    "ru": "• Поддержка 18 языков мира с удобной каруселью выбора.\n• Обновленные иконки загадок высокой четкости.\n• Добавлена система проверки обновлений.\n• Оптимизация сенсорного управления и производительности."
+  }
+}
