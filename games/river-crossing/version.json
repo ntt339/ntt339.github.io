@@ -1,10 +1,10 @@
 {
-  "latest_version": "1.1.5",
-  "latest_build": 36,
+  "latest_version": "1.1.6",
+  "latest_build": 37,
   "min_version": "1.0.0",
   "min_build": 1,
   "force_update": false,
-  "release_date": "2026-11-19",
+  "release_date": "2026-11-20",
   "stores": {
     "ios": "https://apps.apple.com/app/id6823205074",
     "android": "https://play.google.com/store/apps/details?id=com.thangtn.rivercrossing",
